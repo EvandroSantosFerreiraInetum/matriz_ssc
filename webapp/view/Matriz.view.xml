@@ -1,0 +1,321 @@
+<mvc:View controllerName="inetum.ssm.alocationssc.controller.Matriz"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:f="sap.f"
+    xmlns:tab="sap.ui.table"
+    xmlns:core="sap.ui.core" >
+
+    <f:DynamicPage id="idDynamicPage" preserveHeaderStateOnScroll="true"  showFooter="true" fitContent="true">
+
+    	<!-- DynamicPage Title -->
+        <f:title>
+            <f:DynamicPageTitle >
+                <f:heading>
+                    <Title text="Matriz SSC"/>
+                </f:heading>
+ 
+                <f:content>
+                    <OverflowToolbar>
+ 
+                    </OverflowToolbar>
+                </f:content>
+                <f:actions>
+
+                </f:actions>
+            </f:DynamicPageTitle>
+        </f:title>
+
+        <!-- DynamicPage Header -->
+		<f:header>          
+		    <f:DynamicPageHeader id="idDynamicPageHeader"  >                
+                <fb:FilterBar id="idFilterBar" persistencyKey="myPersKey" useToolbar="false" search=".onSearch" filterChange=".onFilterChange" afterVariantLoad=".onAfterVariantLoad">
+                    <fb:filterGroupItems>
+                        <fb:FilterGroupItem name="Year" label="Year" groupName="Group1" visibleInFilterBar="true">
+                            <fb:control>
+                                <ComboBox
+                                    name="Year"
+                                    selectionChange=".onSelectionChange"
+                                    items="{
+                                        path: '/Year_ListSet',
+                                        templateShareable: true
+                                    }"
+                                    selectedKey="2024"
+                                >
+                                    <core:Item key="{Year}" text="{Year}"/>
+                                </ComboBox>
+                            </fb:control>
+                        </fb:FilterGroupItem>                        
+                        <fb:FilterGroupItem name="Consultant" label="Consultant" groupName="Group2" visibleInFilterBar="true">
+                            <fb:control>
+                                <MultiComboBox
+                                    name="Consultant"
+                                    selectionChange=".onSelectionChange"
+                                    items="{
+                                        path: '/Consultant_ListSet',
+                                        templateShareable: true
+                                    }"
+                                >
+                                    <core:Item key="{Consultant}" text="{ConsultantName}"/>
+                                </MultiComboBox>
+                            </fb:control>
+                        </fb:FilterGroupItem>
+                        <fb:FilterGroupItem name="Data Type" label="Data Type" groupName="Group2" visibleInFilterBar="true">
+                            <fb:control>
+                                <MultiComboBox
+                                    name="Data Type"
+                                    selectionChange=".onSelectionChange"
+                                    items="{
+                                        path: '/Data_Type_ListSet',
+                                        templateShareable: true
+                                    }"
+                                >
+                                    <core:Item key="{DataType}" text="{DataType}"/>
+                                </MultiComboBox>
+                            </fb:control>
+                        </fb:FilterGroupItem>                        
+                    </fb:filterGroupItems>    
+                </fb:FilterBar>
+            </f:DynamicPageHeader>
+        </f:header>
+
+        <f:content>                     
+            <tab:Table id="idTable" rows="{ path: '/ConsultantMatrizSet', events: {dataReceived: '.onDataReceive'} }" threshold="100000000"  visibleRowCount="20"  enableColumnFreeze="true" alternateRowColors="true" selectionMode="None" >                                    
+                <tab:columns>
+                    <tab:Column id="idColumn" width="11rem" filterProperty="ConsultantName">
+                        <Label text="Consultant" textAlign="Center" width="100%" design="Bold"/>
+                        <tab:template>
+                            <Text text="{ConsultantName}"/>
+                        </tab:template>
+                    </tab:Column>   
+                    <tab:Column width="11rem" filterProperty="Field1" > 
+                        <Label text="" textAlign="Center" width="100%" design="Bold"/>
+                            <tab:template>
+                                <Text text="{DataType}"/>
+                        </tab:template>
+                    </tab:Column>                                                      
+                    <tab:Column width="11rem" filterProperty="Time1" headerSpan="2"  autoResizable="true" hAlign="Center" > 
+                        <tab:multiLabels>
+                            <Label text="January - 144H" textAlign="Center" width="100%" design="Bold"/>
+                            <Label text=" "  />
+                        </tab:multiLabels>
+                        <tab:template>
+                            <Text text="{TimeM1}H"/>
+                        </tab:template>
+                    </tab:Column>      
+                    <tab:Column width="11rem" filterProperty="Percent1" headerSpan="2" autoResizable="true" hAlign="Center" >  
+                        <tab:multiLabels>
+                            <Label text="January" design="Bold"/>
+                            <Label text=" " />
+                        </tab:multiLabels>
+                        <tab:template>
+                            <Text text="{PercentM1}%"/>
+                        </tab:template>
+                    </tab:Column>  
+                        <tab:Column width="11rem" filterProperty="Time2" headerSpan="2" autoResizable="true" hAlign="Center" > 
+                            <tab:multiLabels>
+                                <Label text="February - 116H" design="Bold" textAlign="Center" width="100%"/>
+                                <Label text="Hours"    />
+                            </tab:multiLabels>
+                            <tab:template>
+                                <Text text="{TimeM2}"/>
+                            </tab:template>
+                        </tab:Column>      
+                        <tab:Column width="11rem" filterProperty="Percent2" headerSpan="2" autoResizable="true" hAlign="Center" >  
+                            <tab:multiLabels>
+                                <Label text="February" design="Bold"/>
+                                <Label text="Percent"  />
+                            </tab:multiLabels>
+                            <tab:template>
+                                <Text text="{PercentM2}"/>
+                            </tab:template>
+                        </tab:Column>  
+
+                        <tab:Column width="11rem" filterProperty="Time3" headerSpan="2" autoResizable="true" hAlign="Center" >  
+                            <tab:multiLabels>
+                                <Label text="March 148H" design="Bold" textAlign="Center" width="100%"/>
+                                <Label text="Hours"  />
+                            </tab:multiLabels>
+                            <tab:template>
+                                <Text text="{TimeM3}"/>
+                            </tab:template>
+                        </tab:Column>      
+                        <tab:Column width="11rem" filterProperty="Percent3" headerSpan="2" autoResizable="true" hAlign="Center" >  
+                            <tab:multiLabels>
+                                <Label text="March" />
+                                <Label text="Percent" />
+                            </tab:multiLabels>
+                            <tab:template>
+                                <Text text="{PercentM3}"/>
+                            </tab:template>
+                        </tab:Column>  
+                        
+                        <tab:Column width="11rem" filterProperty="Time4" headerSpan="2" autoResizable="true" hAlign="Center" >  
+                            <tab:multiLabels>
+                                <Label text="April - 140H" design="Bold" textAlign="Center" width="100%"/>
+                                <Label text="Hours"  />
+                            </tab:multiLabels>
+                            <tab:template>
+                                <Text text="{TimeM4}"/>
+                            </tab:template>
+                        </tab:Column>      
+                        <tab:Column width="11rem" filterProperty="Percent4" headerSpan="2" autoResizable="true" hAlign="Center" > 
+                            <tab:multiLabels>
+                                <Label text="April" />
+                                <Label text="Percent" />
+                            </tab:multiLabels>
+                            <tab:template>
+                                <Text text="{PercentM4}"/>
+                            </tab:template>
+                        </tab:Column>  
+
+                        <tab:Column width="11rem" filterProperty="Time5" headerSpan="2" autoResizable="true" hAlign="Center" >  
+                            <tab:multiLabels>
+                                <Label text="May - 130H" design="Bold" textAlign="Center" width="100%"/>
+                                <Label text="Hours"  />
+                            </tab:multiLabels>
+                            <tab:template>
+                                <Text text="{TimeM5}"/>
+                            </tab:template>
+                        </tab:Column>      
+                        <tab:Column width="11rem" filterProperty="Percent5" headerSpan="2" autoResizable="true" hAlign="Center" >  
+                            <tab:multiLabels>
+                                <Label text="May" />
+                                <Label text="Percent" />
+                            </tab:multiLabels>
+                            <tab:template>
+                                <Text text="{PercentM5}"/>
+                            </tab:template>
+                        </tab:Column>  
+                        <tab:Column width="11rem" filterProperty="Time6" headerSpan="2" autoResizable="true" hAlign="Center" >  
+                            <tab:multiLabels>
+                                <Label text="June - 150H" design="Bold" textAlign="Center" width="100%"/>
+                                <Label text="Hours"  />
+                            </tab:multiLabels>
+                            <tab:template>
+                                <Text text="{TimeM6}"/>
+                            </tab:template>
+                        </tab:Column>      
+                        <tab:Column width="11rem" filterProperty="Percent6" headerSpan="2" autoResizable="true" hAlign="Center" > 
+                            <tab:multiLabels>
+                                <Label text="June" />
+                                <Label text="Percent" />
+                            </tab:multiLabels>
+                            <tab:template>
+                                <Text text="{PercentM6}"/>
+                            </tab:template>
+                        </tab:Column>  
+
+                        <tab:Column width="11rem" filterProperty="Time7" headerSpan="2" autoResizable="true" hAlign="Center" >  
+                            <tab:multiLabels>
+                                <Label text="July - 170H" design="Bold" textAlign="Center" width="100%"/>
+                                <Label text="Hours"  />
+                            </tab:multiLabels>
+                            <tab:template>
+                                <Text text="{TimeM7}"/>
+                            </tab:template>
+                        </tab:Column>      
+                        <tab:Column width="11rem" filterProperty="Percent7" headerSpan="2" autoResizable="true" hAlign="Center" > 
+                            <tab:multiLabels>
+                                <Label text="July" />
+                                <Label text="Percent" />
+                            </tab:multiLabels>
+                            <tab:template>
+                                <Text text="{PercentM7}"/>
+                            </tab:template>
+                        </tab:Column>       
+                        <tab:Column width="11rem" filterProperty="Time8" headerSpan="2" autoResizable="true" hAlign="Center" >  
+                            <tab:multiLabels>
+                                <Label text="August - 160H" design="Bold" textAlign="Center" width="100%"/>
+                                <Label text="Hours"  />
+                            </tab:multiLabels>
+                            <tab:template>
+                                <Text text="{TimeM8}"/>
+                            </tab:template>
+                        </tab:Column>      
+                        <tab:Column width="11rem" filterProperty="Percent8" headerSpan="2" autoResizable="true" hAlign="Center" >  
+                            <tab:multiLabels>
+                                <Label text="August" />
+                                <Label text="Percent" />
+                            </tab:multiLabels>
+                            <tab:template>
+                                <Text text="{PercentM8}"/>
+                            </tab:template>
+                        </tab:Column>  
+                        <tab:Column width="11rem" filterProperty="Time9" headerSpan="2" autoResizable="true" hAlign="Center" > 
+                            <tab:multiLabels>
+                                <Label text="September - 160H" design="Bold" textAlign="Center" width="100%"/>
+                                <Label text="Hours"  />
+                            </tab:multiLabels>
+                            <tab:template>
+                                <Text text="{TimeM9}"/>
+                            </tab:template>
+                        </tab:Column>      
+                        <tab:Column width="11rem" filterProperty="Percent9" headerSpan="2" autoResizable="true" hAlign="Center" > 
+                            <tab:multiLabels>
+                                <Label text="September" />
+                                <Label text="Percent" />
+                            </tab:multiLabels>
+                            <tab:template>
+                                <Text text="{PercentM9}"/>
+                            </tab:template>
+                        </tab:Column> 
+                        <tab:Column width="11rem" filterProperty="Time10" headerSpan="2" autoResizable="true" hAlign="Center" >  
+                            <tab:multiLabels>
+                                <Label text="October - 160H" design="Bold" textAlign="Center" width="100%"/>
+                                <Label text="Hours"  />
+                            </tab:multiLabels>
+                            <tab:template>
+                                <Text text="{TimeM10}"/>
+                            </tab:template>
+                        </tab:Column>      
+                        <tab:Column width="11rem" filterProperty="Percent10" headerSpan="2" autoResizable="true" hAlign="Center" > 
+                            <tab:multiLabels>
+                                <Label text="October" />
+                                <Label text="Percent" />
+                            </tab:multiLabels>
+                            <tab:template>
+                                <Text text="{PercentM10}"/>
+                            </tab:template>
+                        </tab:Column>                               
+                        <tab:Column width="11rem" filterProperty="Time11" headerSpan="2" autoResizable="true" hAlign="Center" >  
+                            <tab:multiLabels>
+                                <Label text="November - 150H" design="Bold" textAlign="Center" width="100%"/>
+                                <Label text="Hours"  />
+                            </tab:multiLabels>
+                            <tab:template>
+                                <Text text="{TimeM11}"/>
+                            </tab:template>
+                        </tab:Column>      
+                        <tab:Column width="11rem" filterProperty="Percent11" headerSpan="2" autoResizable="true" hAlign="Center" > 
+                            <tab:multiLabels>
+                                <Label text="November" />
+                                <Label text="Percent" />
+                            </tab:multiLabels>
+                            <tab:template>
+                                <Text text="{PercentM11}"/>
+                            </tab:template>
+                        </tab:Column>                               
+                        <tab:Column width="11rem" filterProperty="Time12" headerSpan="2" autoResizable="true" hAlign="Center" > 
+                            <tab:multiLabels>
+                                <Label text="December - 140H" design="Bold" textAlign="Center" width="100%"/>
+                                <Label text="Hours"  />
+                            </tab:multiLabels>
+                            <tab:template>
+                                <Text text="{TimeM12}"/>
+                            </tab:template>
+                        </tab:Column>      
+                        <tab:Column width="11rem" filterProperty="Percent12" headerSpan="2" autoResizable="true" hAlign="Center" > 
+                            <tab:multiLabels>
+                                <Label text="December" />
+                                <Label text="Percent" />
+                            </tab:multiLabels>
+                            <tab:template>
+                                <Text text="{PercentM12}"/>
+                            </tab:template>
+                    </tab:Column>   
+                </tab:columns>                           
+            </tab:Table>                    
+        </f:content>                 
+    </f:DynamicPage>
+</mvc:View>

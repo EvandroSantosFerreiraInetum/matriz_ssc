@@ -4,7 +4,8 @@
     xmlns:fb="sap.ui.comp.filterbar"
     xmlns:f="sap.f"
     xmlns:tab="sap.ui.table"
-    xmlns:core="sap.ui.core" >
+    xmlns:core="sap.ui.core" 
+    xmlns:grid="sap.ui.layout.cssgrid">
 
     <f:DynamicPage id="idDynamicPage" preserveHeaderStateOnScroll="true"  showFooter="true" fitContent="true">
 
@@ -12,7 +13,7 @@
         <f:title>
             <f:DynamicPageTitle >
                 <f:heading>
-                    <Title text="Matriz SSC"/>
+                    <Title text="{i18n>matrizSSC}"/>
                 </f:heading>
  
                 <f:content>
@@ -31,7 +32,7 @@
 		    <f:DynamicPageHeader id="idDynamicPageHeader"  >                
                 <fb:FilterBar id="idFilterBar" persistencyKey="myPersKey" useToolbar="false" search=".onSearch" filterChange=".onFilterChange" afterVariantLoad=".onAfterVariantLoad">
                     <fb:filterGroupItems>
-                        <fb:FilterGroupItem name="Year" label="Year" groupName="Group1" visibleInFilterBar="true">
+                        <fb:FilterGroupItem name="Year" label="{i18n>year}" groupName="Group1" visibleInFilterBar="true">
                             <fb:control>
                                 <ComboBox
                                     name="Year"
@@ -46,10 +47,10 @@
                                 </ComboBox>
                             </fb:control>
                         </fb:FilterGroupItem>                        
-                        <fb:FilterGroupItem name="Consultant" label="Consultant" groupName="Group2" visibleInFilterBar="true">
+                        <fb:FilterGroupItem name="Consultant" label="{i18n>consultant}" groupName="Group2" visibleInFilterBar="true">
                             <fb:control>
                                 <MultiComboBox
-                                    name="Consultant"
+                                    name="{i18n>consultant}"
                                     selectionChange=".onSelectionChange"
                                     items="{
                                         path: '/Consultant_ListSet',
@@ -60,260 +61,561 @@
                                 </MultiComboBox>
                             </fb:control>
                         </fb:FilterGroupItem>
-                        <fb:FilterGroupItem name="Data Type" label="Data Type" groupName="Group2" visibleInFilterBar="true">
-                            <fb:control>
-                                <MultiComboBox
-                                    name="Data Type"
-                                    selectionChange=".onSelectionChange"
-                                    items="{
-                                        path: '/Data_Type_ListSet',
-                                        templateShareable: true
-                                    }"
-                                >
-                                    <core:Item key="{DataType}" text="{DataType}"/>
-                                </MultiComboBox>
-                            </fb:control>
-                        </fb:FilterGroupItem>                        
+                    
                     </fb:filterGroupItems>    
                 </fb:FilterBar>
             </f:DynamicPageHeader>
         </f:header>
 
-        <f:content>                     
-            <tab:Table id="idTable" rows="{ path: '/ConsultantMatrizSet', events: {dataReceived: '.onDataReceive'} }" threshold="100000000"  visibleRowCount="20"  enableColumnFreeze="true" alternateRowColors="true" selectionMode="None" >                                    
+        <f:content>                
+            <tab:Table id="idTable" rows="{ path: '/AllocationMatrizSet', events: {dataReceived: '.onDataReceive'} }" threshold="100000000"  visibleRowCount="20"  enableColumnFreeze="true" alternateRowColors="true" selectionMode="None" >                                    
                 <tab:columns>
                     <tab:Column id="idColumn" width="11rem" filterProperty="ConsultantName">
-                        <Label text="Consultant" textAlign="Center" width="100%" design="Bold"/>
+                        <Label text="{i18n>consultant}" textAlign="Center" width="100%" design="Bold"/>
                         <tab:template>
                             <Text text="{ConsultantName}"/>
                         </tab:template>
-                    </tab:Column>   
-                    <tab:Column width="11rem" filterProperty="Field1" > 
-                        <Label text="" textAlign="Center" width="100%" design="Bold"/>
-                            <tab:template>
-                                <Text text="{DataType}"/>
-                        </tab:template>
-                    </tab:Column>                                                      
-                    <tab:Column width="11rem" filterProperty="Time1" headerSpan="2"  autoResizable="true" hAlign="Center" > 
-                        <tab:multiLabels>
-                            <Label text="January - 144H" textAlign="Center" width="100%" design="Bold"/>
-                            <Label text=" "  />
-                        </tab:multiLabels>
-                        <tab:template>
-                            <Text text="{TimeM1}H"/>
-                        </tab:template>
-                    </tab:Column>      
-                    <tab:Column width="11rem" filterProperty="Percent1" headerSpan="2" autoResizable="true" hAlign="Center" >  
-                        <tab:multiLabels>
-                            <Label text="January" design="Bold"/>
-                            <Label text=" " />
-                        </tab:multiLabels>
-                        <tab:template>
-                            <Text text="{PercentM1}%"/>
-                        </tab:template>
-                    </tab:Column>  
-                        <tab:Column width="11rem" filterProperty="Time2" headerSpan="2" autoResizable="true" hAlign="Center" > 
-                            <tab:multiLabels>
-                                <Label text="February - 116H" design="Bold" textAlign="Center" width="100%"/>
-                                <Label text="Hours"    />
-                            </tab:multiLabels>
-                            <tab:template>
-                                <Text text="{TimeM2}"/>
-                            </tab:template>
-                        </tab:Column>      
-                        <tab:Column width="11rem" filterProperty="Percent2" headerSpan="2" autoResizable="true" hAlign="Center" >  
-                            <tab:multiLabels>
-                                <Label text="February" design="Bold"/>
-                                <Label text="Percent"  />
-                            </tab:multiLabels>
-                            <tab:template>
-                                <Text text="{PercentM2}"/>
-                            </tab:template>
-                        </tab:Column>  
+                    </tab:Column>
+                    <!-- Janeiro -->
+                    <tab:Column>
+                        <Label text="{i18n>january} - 144H" textAlign="Center" width="100%" design="Bold"/>
+                        <tab:template>                            
+                            <VBox class="sapUiSmallMarginTopBottom">
+                                <HBox>
+                                    <Label text="{i18n>planeado}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{PlanTimeM1}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{PlanPercentM1}%" width="40px"/>
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>real}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{RealTimeM1}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{RealPercentM1}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>va}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{VaabTimeM1}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{VaabPercentM1}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>nonAllocated}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{NonalTimeM1}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <ObjectStatus text="{NonalPercentM1}%" state="{NonalStateM1}" inverted="true"/> 
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>totalReal}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{TotrealTimeM1}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{TotrealPercentM1}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>balance}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/> 
+                                    <Text text="{BalanceTimeM1}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <ObjectStatus text="{BalancePercentM1}%" state="{BalanceStateM1}"/> 
+                                </HBox>
+                            </VBox>                  
+                        </tab:template>                      
+                    </tab:Column>
 
-                        <tab:Column width="11rem" filterProperty="Time3" headerSpan="2" autoResizable="true" hAlign="Center" >  
-                            <tab:multiLabels>
-                                <Label text="March 148H" design="Bold" textAlign="Center" width="100%"/>
-                                <Label text="Hours"  />
-                            </tab:multiLabels>
-                            <tab:template>
-                                <Text text="{TimeM3}"/>
-                            </tab:template>
-                        </tab:Column>      
-                        <tab:Column width="11rem" filterProperty="Percent3" headerSpan="2" autoResizable="true" hAlign="Center" >  
-                            <tab:multiLabels>
-                                <Label text="March" />
-                                <Label text="Percent" />
-                            </tab:multiLabels>
-                            <tab:template>
-                                <Text text="{PercentM3}"/>
-                            </tab:template>
-                        </tab:Column>  
-                        
-                        <tab:Column width="11rem" filterProperty="Time4" headerSpan="2" autoResizable="true" hAlign="Center" >  
-                            <tab:multiLabels>
-                                <Label text="April - 140H" design="Bold" textAlign="Center" width="100%"/>
-                                <Label text="Hours"  />
-                            </tab:multiLabels>
-                            <tab:template>
-                                <Text text="{TimeM4}"/>
-                            </tab:template>
-                        </tab:Column>      
-                        <tab:Column width="11rem" filterProperty="Percent4" headerSpan="2" autoResizable="true" hAlign="Center" > 
-                            <tab:multiLabels>
-                                <Label text="April" />
-                                <Label text="Percent" />
-                            </tab:multiLabels>
-                            <tab:template>
-                                <Text text="{PercentM4}"/>
-                            </tab:template>
-                        </tab:Column>  
+                    <!-- Fevereiro -->
+                    <tab:Column>
+                        <Label text="{i18n>february} - 116H" textAlign="Center" width="100%" design="Bold"/>
+                        <tab:template>                            
+                            <VBox class="sapUiSmallMarginTopBottom">
+                                <HBox>
+                                    <Label text="{i18n>planeado}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{PlanTimeM2}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{PlanPercentM2}%" width="40px"/>
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>real}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{RealTimeM2}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{RealPercentM2}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>va}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{VaabTimeM2}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{VaabPercentM2}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>nonAllocated}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{NonalTimeM2}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <ObjectStatus text="{NonalPercentM2}%" state="{NonalStateM2}" inverted="true"/> 
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>totalReal}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{TotrealTimeM2}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{TotrealPercentM2}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>balance}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/> 
+                                    <Text text="{BalanceTimeM2}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <ObjectStatus text="{BalancePercentM2}%" state="{BalanceStateM2}" inverted="true"/> 
+                                </HBox>
+                            </VBox>                  
+                        </tab:template>                      
+                    </tab:Column>
 
-                        <tab:Column width="11rem" filterProperty="Time5" headerSpan="2" autoResizable="true" hAlign="Center" >  
-                            <tab:multiLabels>
-                                <Label text="May - 130H" design="Bold" textAlign="Center" width="100%"/>
-                                <Label text="Hours"  />
-                            </tab:multiLabels>
-                            <tab:template>
-                                <Text text="{TimeM5}"/>
-                            </tab:template>
-                        </tab:Column>      
-                        <tab:Column width="11rem" filterProperty="Percent5" headerSpan="2" autoResizable="true" hAlign="Center" >  
-                            <tab:multiLabels>
-                                <Label text="May" />
-                                <Label text="Percent" />
-                            </tab:multiLabels>
-                            <tab:template>
-                                <Text text="{PercentM5}"/>
-                            </tab:template>
-                        </tab:Column>  
-                        <tab:Column width="11rem" filterProperty="Time6" headerSpan="2" autoResizable="true" hAlign="Center" >  
-                            <tab:multiLabels>
-                                <Label text="June - 150H" design="Bold" textAlign="Center" width="100%"/>
-                                <Label text="Hours"  />
-                            </tab:multiLabels>
-                            <tab:template>
-                                <Text text="{TimeM6}"/>
-                            </tab:template>
-                        </tab:Column>      
-                        <tab:Column width="11rem" filterProperty="Percent6" headerSpan="2" autoResizable="true" hAlign="Center" > 
-                            <tab:multiLabels>
-                                <Label text="June" />
-                                <Label text="Percent" />
-                            </tab:multiLabels>
-                            <tab:template>
-                                <Text text="{PercentM6}"/>
-                            </tab:template>
-                        </tab:Column>  
+                    <!-- Março -->
+                    <tab:Column>
+                        <Label text="{i18n>march} - 160H" textAlign="Center" width="100%" design="Bold"/>
+                        <tab:template>                            
+                            <VBox class="sapUiSmallMarginTopBottom">
+                                <HBox>
+                                    <Label text="{i18n>planeado}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{PlanTimeM3}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{PlanPercentM3}%" width="40px"/>
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>real}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{RealTimeM3}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{RealPercentM3}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>va}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{VaabTimeM3}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{VaabPercentM3}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>nonAllocated}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{NonalTimeM3}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <ObjectStatus text="{NonalPercentM3}%" state="{NonalStateM3}" inverted="true"/> 
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>totalReal}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{TotrealTimeM3}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{TotrealPercentM3}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>balance}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/> 
+                                    <Text text="{BalanceTimeM3}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <ObjectStatus text="{BalancePercentM3}%" state="{BalanceStateM3}" inverted="true"/> 
+                                </HBox>
+                            </VBox>                  
+                        </tab:template>                      
+                    </tab:Column>
 
-                        <tab:Column width="11rem" filterProperty="Time7" headerSpan="2" autoResizable="true" hAlign="Center" >  
-                            <tab:multiLabels>
-                                <Label text="July - 170H" design="Bold" textAlign="Center" width="100%"/>
-                                <Label text="Hours"  />
-                            </tab:multiLabels>
-                            <tab:template>
-                                <Text text="{TimeM7}"/>
-                            </tab:template>
-                        </tab:Column>      
-                        <tab:Column width="11rem" filterProperty="Percent7" headerSpan="2" autoResizable="true" hAlign="Center" > 
-                            <tab:multiLabels>
-                                <Label text="July" />
-                                <Label text="Percent" />
-                            </tab:multiLabels>
-                            <tab:template>
-                                <Text text="{PercentM7}"/>
-                            </tab:template>
-                        </tab:Column>       
-                        <tab:Column width="11rem" filterProperty="Time8" headerSpan="2" autoResizable="true" hAlign="Center" >  
-                            <tab:multiLabels>
-                                <Label text="August - 160H" design="Bold" textAlign="Center" width="100%"/>
-                                <Label text="Hours"  />
-                            </tab:multiLabels>
-                            <tab:template>
-                                <Text text="{TimeM8}"/>
-                            </tab:template>
-                        </tab:Column>      
-                        <tab:Column width="11rem" filterProperty="Percent8" headerSpan="2" autoResizable="true" hAlign="Center" >  
-                            <tab:multiLabels>
-                                <Label text="August" />
-                                <Label text="Percent" />
-                            </tab:multiLabels>
-                            <tab:template>
-                                <Text text="{PercentM8}"/>
-                            </tab:template>
-                        </tab:Column>  
-                        <tab:Column width="11rem" filterProperty="Time9" headerSpan="2" autoResizable="true" hAlign="Center" > 
-                            <tab:multiLabels>
-                                <Label text="September - 160H" design="Bold" textAlign="Center" width="100%"/>
-                                <Label text="Hours"  />
-                            </tab:multiLabels>
-                            <tab:template>
-                                <Text text="{TimeM9}"/>
-                            </tab:template>
-                        </tab:Column>      
-                        <tab:Column width="11rem" filterProperty="Percent9" headerSpan="2" autoResizable="true" hAlign="Center" > 
-                            <tab:multiLabels>
-                                <Label text="September" />
-                                <Label text="Percent" />
-                            </tab:multiLabels>
-                            <tab:template>
-                                <Text text="{PercentM9}"/>
-                            </tab:template>
-                        </tab:Column> 
-                        <tab:Column width="11rem" filterProperty="Time10" headerSpan="2" autoResizable="true" hAlign="Center" >  
-                            <tab:multiLabels>
-                                <Label text="October - 160H" design="Bold" textAlign="Center" width="100%"/>
-                                <Label text="Hours"  />
-                            </tab:multiLabels>
-                            <tab:template>
-                                <Text text="{TimeM10}"/>
-                            </tab:template>
-                        </tab:Column>      
-                        <tab:Column width="11rem" filterProperty="Percent10" headerSpan="2" autoResizable="true" hAlign="Center" > 
-                            <tab:multiLabels>
-                                <Label text="October" />
-                                <Label text="Percent" />
-                            </tab:multiLabels>
-                            <tab:template>
-                                <Text text="{PercentM10}"/>
-                            </tab:template>
-                        </tab:Column>                               
-                        <tab:Column width="11rem" filterProperty="Time11" headerSpan="2" autoResizable="true" hAlign="Center" >  
-                            <tab:multiLabels>
-                                <Label text="November - 150H" design="Bold" textAlign="Center" width="100%"/>
-                                <Label text="Hours"  />
-                            </tab:multiLabels>
-                            <tab:template>
-                                <Text text="{TimeM11}"/>
-                            </tab:template>
-                        </tab:Column>      
-                        <tab:Column width="11rem" filterProperty="Percent11" headerSpan="2" autoResizable="true" hAlign="Center" > 
-                            <tab:multiLabels>
-                                <Label text="November" />
-                                <Label text="Percent" />
-                            </tab:multiLabels>
-                            <tab:template>
-                                <Text text="{PercentM11}"/>
-                            </tab:template>
-                        </tab:Column>                               
-                        <tab:Column width="11rem" filterProperty="Time12" headerSpan="2" autoResizable="true" hAlign="Center" > 
-                            <tab:multiLabels>
-                                <Label text="December - 140H" design="Bold" textAlign="Center" width="100%"/>
-                                <Label text="Hours"  />
-                            </tab:multiLabels>
-                            <tab:template>
-                                <Text text="{TimeM12}"/>
-                            </tab:template>
-                        </tab:Column>      
-                        <tab:Column width="11rem" filterProperty="Percent12" headerSpan="2" autoResizable="true" hAlign="Center" > 
-                            <tab:multiLabels>
-                                <Label text="December" />
-                                <Label text="Percent" />
-                            </tab:multiLabels>
-                            <tab:template>
-                                <Text text="{PercentM12}"/>
-                            </tab:template>
-                    </tab:Column>   
+                    <!-- Abril -->
+                    <tab:Column>
+                        <Label text="{i18n>april} - 160H" textAlign="Center" width="100%" design="Bold"/>
+                        <tab:template>                            
+                            <VBox class="sapUiSmallMarginTopBottom">
+                                <HBox>
+                                    <Label text="{i18n>planeado}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{PlanTimeM4}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{PlanPercentM4}%" width="40px"/>
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>real}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{RealTimeM4}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{RealPercentM4}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>va}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{VaabTimeM4}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{VaabPercentM4}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>nonAllocated}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{NonalTimeM4}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <ObjectStatus text="{NonalPercentM4}%" state="{NonalStateM4}" inverted="true"/> 
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>totalReal}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{TotrealTimeM4}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{TotrealPercentM4}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>balance}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/> 
+                                    <Text text="{BalanceTimeM4}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <ObjectStatus text="{BalancePercentM4}%" state="{BalanceStateM4}" inverted="true"/> 
+                                </HBox>
+                            </VBox>                  
+                        </tab:template>                      
+                    </tab:Column>
+
+                    <!-- Maio -->
+                    <tab:Column>
+                        <Label text="{i18n>may} - 160H" textAlign="Center" width="100%" design="Bold"/>
+                        <tab:template>                            
+                            <VBox class="sapUiSmallMarginTopBottom">
+                                <HBox>
+                                    <Label text="{i18n>planeado}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{PlanTimeM5}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{PlanPercentM5}%" width="40px"/>
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>real}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{RealTimeM5}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{RealPercentM5}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>va}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{VaabTimeM5}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{VaabPercentM5}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>nonAllocated}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{NonalTimeM5}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <ObjectStatus text="{NonalPercentM5}%" state="{NonalStateM5}" inverted="true"/> 
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>totalReal}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{TotrealTimeM5}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{TotrealPercentM5}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>balance}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/> 
+                                    <Text text="{BalanceTimeM5}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <ObjectStatus text="{BalancePercentM5}%" state="{BalanceStateM5}" inverted="true"/> 
+                                </HBox>
+                            </VBox>                  
+                        </tab:template>                      
+                    </tab:Column>
+
+                    <!-- Junho -->
+                    <tab:Column>
+                        <Label text="{i18n>june} - 160H" textAlign="Center" width="100%" design="Bold"/>
+                        <tab:template>                            
+                            <VBox class="sapUiSmallMarginTopBottom">
+                                <HBox>
+                                    <Label text="{i18n>planeado}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{PlanTimeM6}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{PlanPercentM6}%" width="40px"/>
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>real}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{RealTimeM6}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{RealPercentM6}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>va}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{VaabTimeM6}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{VaabPercentM6}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>nonAllocated}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{NonalTimeM6}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <ObjectStatus text="{NonalPercentM6}%" state="{NonalStateM6}" inverted="true"/> 
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>totalReal}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{TotrealTimeM6}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{TotrealPercentM6}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>balance}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/> 
+                                    <Text text="{BalanceTimeM6}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <ObjectStatus text="{BalancePercentM6}%" state="{BalanceStateM6}" inverted="true"/> 
+                                </HBox>
+                            </VBox>                  
+                        </tab:template>                      
+                    </tab:Column>
+
+                    <!-- Julho -->
+                    <tab:Column>
+                        <Label text="{i18n>july} - 160H" textAlign="Center" width="100%" design="Bold"/>
+                        <tab:template>                            
+                            <VBox class="sapUiSmallMarginTopBottom">
+                                <HBox>
+                                    <Label text="{i18n>planeado}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{PlanTimeM7}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{PlanPercentM7}%" width="40px"/>
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>real}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{RealTimeM7}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{RealPercentM7}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>va}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{VaabTimeM7}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{VaabPercentM7}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>nonAllocated}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{NonalTimeM7}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <ObjectStatus text="{NonalPercentM7}%" state="{NonalStateM7}" inverted="true"/> 
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>totalReal}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{TotrealTimeM7}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{TotrealPercentM7}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>balance}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/> 
+                                    <Text text="{BalanceTimeM7}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <ObjectStatus text="{BalancePercentM7}%" state="{BalanceStateM7}" inverted="true"/> 
+                                </HBox>
+                            </VBox>                  
+                        </tab:template>                      
+                    </tab:Column>
+
+                    <!-- Agosto -->
+                    <tab:Column>
+                        <Label text="{i18n>august} - 160H" textAlign="Center" width="100%" design="Bold"/>
+                        <tab:template>                            
+                            <VBox class="sapUiSmallMarginTopBottom">
+                                <HBox>
+                                    <Label text="{i18n>planeado}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{PlanTimeM8}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{PlanPercentM8}%" width="40px"/>
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>real}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{RealTimeM8}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{RealPercentM8}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>va}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{VaabTimeM8}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{VaabPercentM8}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>nonAllocated}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{NonalTimeM8}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <ObjectStatus text="{NonalPercentM8}%" state="{NonalStateM8}" inverted="true"/> 
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>totalReal}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{TotrealTimeM8}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{TotrealPercentM8}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>balance}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/> 
+                                    <Text text="{BalanceTimeM8}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <ObjectStatus text="{BalancePercentM8}%" state="{BalanceStateM8}" inverted="true"/> 
+                                </HBox>
+                            </VBox>                  
+                        </tab:template>                      
+                    </tab:Column>
+
+                    <!-- Setembro -->
+                    <tab:Column>
+                        <Label text="{i18n>september} - 160H" textAlign="Center" width="100%" design="Bold"/>
+                        <tab:template>                            
+                            <VBox class="sapUiSmallMarginTopBottom">
+                                <HBox>
+                                    <Label text="{i18n>planeado}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{PlanTimeM9}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{PlanPercentM9}%" width="40px"/>
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>real}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{RealTimeM9}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{RealPercentM9}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>va}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{VaabTimeM9}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{VaabPercentM9}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>nonAllocated}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{NonalTimeM9}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <ObjectStatus text="{NonalPercentM9}%" state="{NonalStateM9}" inverted="true"/> 
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>totalReal}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{TotrealTimeM9}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{TotrealPercentM9}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>balance}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/> 
+                                    <Text text="{BalanceTimeM9}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <ObjectStatus text="{BalancePercentM9}%" state="{BalanceStateM9}" inverted="true"/> 
+                                </HBox>
+                            </VBox>                  
+                        </tab:template>                      
+                    </tab:Column>
+
+                     <!-- Outubro -->
+                    <tab:Column>
+                        <Label text="{i18n>october} - 160H" textAlign="Center" width="100%" design="Bold"/>
+                        <tab:template>                            
+                            <VBox class="sapUiSmallMarginTopBottom">
+                                <HBox>
+                                    <Label text="{i18n>planeado}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{PlanTimeM10}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{PlanPercentM10}%" width="40px"/>
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>real}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{RealTimeM10}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{RealPercentM10}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>va}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{VaabTimeM10}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{VaabPercentM10}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>nonAllocated}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{NonalTimeM10}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <ObjectStatus text="{NonalPercentM10}%" state="{NonalStateM10}" inverted="true"/> 
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>totalReal}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{TotrealTimeM10}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{TotrealPercentM10}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>balance}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/> 
+                                    <Text text="{BalanceTimeM10}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <ObjectStatus text="{BalancePercentM10}%" state="{BalanceStateM10}" inverted="true"/> 
+                                </HBox>
+                            </VBox>                  
+                        </tab:template>                      
+                    </tab:Column>
+
+                     <!--Novembro -->
+                     <tab:Column>
+                        <Label text="{i18n>november} - 160H" textAlign="Center" width="100%" design="Bold"/>
+                        <tab:template>                            
+                            <VBox class="sapUiSmallMarginTopBottom">
+                                <HBox>
+                                    <Label text="{i18n>planeado}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{PlanTimeM11}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{PlanPercentM11}%" width="40px"/>
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>real}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{RealTimeM11}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{RealPercentM11}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>va}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{VaabTimeM11}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{VaabPercentM11}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>nonAllocated}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{NonalTimeM11}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <ObjectStatus text="{NonalPercentM11}%" state="{NonalStateM11}" inverted="true"/> 
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>totalReal}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{TotrealTimeM11}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{TotrealPercentM11}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>balance}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/> 
+                                    <Text text="{BalanceTimeM11}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <ObjectStatus text="{BalancePercentM11}%" state="{BalanceStateM11}" inverted="true"/> 
+                                </HBox>
+                            </VBox>                  
+                        </tab:template>                      
+                    </tab:Column>                    
+
+                     <!--Dezembro -->
+                     <tab:Column>
+                        <Label text="{i18n>december} - 160H" textAlign="Center" width="100%" design="Bold"/>
+                        <tab:template>                            
+                            <VBox class="sapUiSmallMarginTopBottom">
+                                <HBox>
+                                    <Label text="{i18n>planeado}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{PlanTimeM12}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{PlanPercentM12}%" width="40px"/>
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>real}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{RealTimeM12}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{RealPercentM12}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>va}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{VaabTimeM12}" width="40px"  />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{VaabPercentM12}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>nonAllocated}" width="90px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{NonalTimeM12}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <ObjectStatus text="{NonalPercentM12}%" state="{NonalStateM12}" inverted="true"/> 
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>totalReal}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{TotrealTimeM12}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <Text text="{TotrealPercentM12}%" width="40px" />
+                                </HBox>
+                                <HBox>
+                                    <Label text="{i18n>balance}" width="90px" design="Bold" class="sapUiSmallMarginEnd"/> 
+                                    <Text text="{BalanceTimeM12}" width="40px" />
+                                    <Text text="H" width="10px" class="sapUiSmallMarginEnd"/>
+                                    <ObjectStatus text="{BalancePercentM12}%" state="{BalanceStateM12}" inverted="true"/> 
+                                </HBox>
+                            </VBox>                  
+                        </tab:template>                      
+                    </tab:Column>    
+                    
                 </tab:columns>                           
             </tab:Table>                    
         </f:content>                 

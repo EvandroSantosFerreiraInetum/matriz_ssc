@@ -11,6 +11,15 @@ sap.ui.define([
             onInit: function () {
                 var oList = this.byId("idTable");
                  oList.setFixedColumnCount(1);
+
+            // Obtém o ano atual
+                var currentYear = new Date().getFullYear();
+
+                // Obtém a referência ao ComboBox
+                var oComboBox = this.byId("idYearListSetComboBox");
+
+                // Define o ano atual como o selectedKey
+                oComboBox.setSelectedKey(currentYear.toString());
             },
  
  

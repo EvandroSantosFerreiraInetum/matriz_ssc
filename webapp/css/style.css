@@ -1,2 +1,13 @@
 /* Enter your custom styles here */
+.redLabel {
+    color: rgb(200, 5, 5) !important;
+    font-weight: bold;
+ 
+}
+
+.objstatus{
+    margin-top: 0.8mm;
+    width: 11mm;
+}
+
  

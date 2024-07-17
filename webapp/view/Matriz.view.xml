@@ -1,4 +1,4 @@
-<mvc:View controllerName="inetum.ssm.alocationssc.controller.Matriz"
+<mvc:View xmlns:cards="sap.f.cards" controllerName="inetum.ssm.alocationssc.controller.Matriz"
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
     xmlns="sap.m"
     xmlns:fb="sap.ui.comp.filterbar"
@@ -6,30 +6,13 @@
     xmlns:tab="sap.ui.table"
     xmlns:core="sap.ui.core">
 
-    <f:DynamicPage id="idDynamicPage" preserveHeaderStateOnScroll="true"  showFooter="true" fitContent="true">
-
-    	<!-- DynamicPage Title -->
-        <f:title>
-            <f:DynamicPageTitle id="idDynamicPageTitle" >
-                <f:heading>
-                    <Title id="idMatrizSSCTitle" text="{i18n>matrizSSC}"/>
-                </f:heading>
- 
-                <f:content>
-                    <OverflowToolbar id="idOverflowToolbar">
- 
-                    </OverflowToolbar>
-                </f:content>
-                <f:actions>
-
-                </f:actions>
-            </f:DynamicPageTitle>
-        </f:title>
+    <f:DynamicPage id="idDynamicPage" preserveHeaderStateOnScroll="true"  showFooter="true" fitContent="true" title="{i18n>matrizSSC}">
 
         <!-- DynamicPage Header -->
 		<f:header>          
-		    <f:DynamicPageHeader id="idDynamicPageHeader"  >                
-                <fb:FilterBar id="idFilterBar" persistencyKey="myPersKey" useToolbar="false" search=".onSearch" filterChange=".onFilterChange" afterVariantLoad=".onAfterVariantLoad">
+		    <f:DynamicPageHeader id="idDynamicPageHeader"  >    
+         
+                <fb:FilterBar id="idFilterBar" persistencyKey="myPersKey" useToolbar="false" search="onFilterBarSearch" filterChange="onFilterBarFilterChange" afterVariantLoad=".onAfterVariantLoad">
                     <fb:filterGroupItems>
                         <fb:FilterGroupItem id="idFilterGroupItem" name="Year" label="{i18n>year}" groupName="Group1" visibleInFilterBar="true">
                             <fb:control>
@@ -44,7 +27,25 @@
                                     <core:Item id="idYearItem" key="{Year}" text="{Year}"/>
                                 </ComboBox>
                             </fb:control>
-                        </fb:FilterGroupItem>                        
+                        </fb:FilterGroupItem> 
+                        <fb:FilterGroupItem id="idMonthFilterGroupItem" name="Month" label="{i18n>month}"  groupName="Group2" visibleInFilterBar="true">
+                            <fb:control>
+                                <MultiComboBox id="idMonthtListSetMultiComboBox" name="{i18n>month}">
+                                    <core:Item key="01" text="{i18n>january}"/>
+                                    <core:Item key="02" text="{i18n>february}"/>
+                                    <core:Item key="03" text="{i18n>march}"/>
+                                    <core:Item key="04" text="{i18n>april}"/>
+                                    <core:Item key="05" text="{i18n>may}"/>
+                                    <core:Item key="06" text="{i18n>june}"/>
+                                    <core:Item key="07" text="{i18n>july}"/>
+                                    <core:Item key="08" text="{i18n>august}"/>
+                                    <core:Item key="09" text="{i18n>september}"/>
+                                    <core:Item key="10" text="{i18n>october}"/>
+                                    <core:Item key="11" text="{i18n>november}"/>
+                                    <core:Item key="12" text="{i18n>december}"/>
+                                </MultiComboBox>
+                            </fb:control>
+                        </fb:FilterGroupItem>                               
                         <fb:FilterGroupItem id="id2FilterGroupItem" name="Consultant" label="{i18n>consultant}" groupName="Group2" visibleInFilterBar="true">
                             <fb:control>
                                 <MultiComboBox id="idConsultantListSetMultiComboBox"
@@ -53,20 +54,18 @@
                                     items="{
                                         path: '/Consultant_ListSet',
                                         templateShareable: true
-                                    }"
-                                >
+                                    }" >
                                     <core:Item id="idConsultantNameItem" key="{Consultant}" text="{ConsultantName}"/>
                                 </MultiComboBox>
                             </fb:control>
-                        </fb:FilterGroupItem>
-                    
+                        </fb:FilterGroupItem>            
                     </fb:filterGroupItems>    
                 </fb:FilterBar>
             </f:DynamicPageHeader>
         </f:header>
 
         <f:content>                
-            <tab:Table id="idTable" rows="{ path: '/AllocationMatrizSet', events: {dataReceived: '.onDataReceive'} }" threshold="100000000"  visibleRowCount="20"  enableColumnFreeze="true" alternateRowColors="true" selectionMode="None" >                                    
+            <tab:Table id="idTable" rows="{ path: '/AllocationMatrizSet', events: {dataReceived: '.onDataReceive'} }" threshold="100000000"  visibleRowCount="10"  enableColumnFreeze="true" alternateRowColors="true" selectionMode="None" >                                    
                 <tab:columns>
                     <tab:Column id="idColumn" width="11rem" filterProperty="ConsultantName" >
                         <Title text="{i18n>consultant}" textAlign="Center" width="100%" />
@@ -76,7 +75,7 @@
                     </tab:Column>
                     <!-- Janeiro -->
                     <tab:Column id="id1Column" width="230px"  >
-                        <Title text="{i18n>january} - 144H" textAlign="Center" width="100%" />
+                        <Title id="id1Title" text="{i18n>january} - 144H" textAlign="Center" width="100%" />
                         <tab:template>                            
                             <VBox class="sapUiSmallMarginTopBottom">
                                 <HBox>

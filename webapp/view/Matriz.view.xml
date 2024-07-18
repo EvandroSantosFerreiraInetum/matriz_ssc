@@ -1,4 +1,4 @@
-<mvc:View xmlns:cards="sap.f.cards" controllerName="inetum.ssm.alocationssc.controller.Matriz"
+<mvc:View controllerName="inetum.ssm.alocationssc.controller.Matriz"
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
     xmlns="sap.m"
     xmlns:fb="sap.ui.comp.filterbar"
@@ -12,13 +12,12 @@
 		<f:header>          
 		    <f:DynamicPageHeader id="idDynamicPageHeader"  >    
          
-                <fb:FilterBar id="idFilterBar" persistencyKey="myPersKey" useToolbar="false" search="onFilterBarSearch" filterChange="onFilterBarFilterChange" afterVariantLoad=".onAfterVariantLoad">
+                <fb:FilterBar id="idFilterBar" persistencyKey="myPersKey" useToolbar="false" search="onFilterBarSearch">
                     <fb:filterGroupItems>
                         <fb:FilterGroupItem id="idFilterGroupItem" name="Year" label="{i18n>year}" groupName="Group1" visibleInFilterBar="true">
                             <fb:control>
                                 <ComboBox id="idYearListSetComboBox"
                                     name="Year"
-                                    selectionChange=".onSelectionChange"
                                     items="{
                                         path: '/Year_ListSet',
                                         templateShareable: true
@@ -31,18 +30,18 @@
                         <fb:FilterGroupItem id="idMonthFilterGroupItem" name="Month" label="{i18n>month}"  groupName="Group2" visibleInFilterBar="true">
                             <fb:control>
                                 <MultiComboBox id="idMonthtListSetMultiComboBox" name="{i18n>month}">
-                                    <core:Item key="01" text="{i18n>january}"/>
-                                    <core:Item key="02" text="{i18n>february}"/>
-                                    <core:Item key="03" text="{i18n>march}"/>
-                                    <core:Item key="04" text="{i18n>april}"/>
-                                    <core:Item key="05" text="{i18n>may}"/>
-                                    <core:Item key="06" text="{i18n>june}"/>
-                                    <core:Item key="07" text="{i18n>july}"/>
-                                    <core:Item key="08" text="{i18n>august}"/>
-                                    <core:Item key="09" text="{i18n>september}"/>
-                                    <core:Item key="10" text="{i18n>october}"/>
-                                    <core:Item key="11" text="{i18n>november}"/>
-                                    <core:Item key="12" text="{i18n>december}"/>
+                                    <core:Item id="idJanuaryItem" key="01" text="{i18n>january}"/>
+                                    <core:Item id="idFebruaryItem" key="02" text="{i18n>february}"/>
+                                    <core:Item id="idMarchItem" key="03" text="{i18n>march}"/>
+                                    <core:Item id="idAprilItem" key="04" text="{i18n>april}"/>
+                                    <core:Item id="idMayItem" key="05" text="{i18n>may}"/>
+                                    <core:Item id="idJuneItem" key="06" text="{i18n>june}"/>
+                                    <core:Item id="idJulyItem" key="07" text="{i18n>july}"/>
+                                    <core:Item id="idAugustItem" key="08" text="{i18n>august}"/>
+                                    <core:Item id="idSeptemberItem" key="09" text="{i18n>september}"/>
+                                    <core:Item id="idOctoberItem" key="10" text="{i18n>october}"/>
+                                    <core:Item id="idNovemberItem" key="11" text="{i18n>november}"/>
+                                    <core:Item id="idDecemberItem" key="12" text="{i18n>december}"/>
                                 </MultiComboBox>
                             </fb:control>
                         </fb:FilterGroupItem>                               
@@ -50,7 +49,6 @@
                             <fb:control>
                                 <MultiComboBox id="idConsultantListSetMultiComboBox"
                                     name="{i18n>consultant}"
-                                    selectionChange=".onSelectionChange"
                                     items="{
                                         path: '/Consultant_ListSet',
                                         templateShareable: true
@@ -61,21 +59,21 @@
                         </fb:FilterGroupItem>            
                     </fb:filterGroupItems>    
                 </fb:FilterBar>
-            </f:DynamicPageHeader>
+            </f:DynamicPageHeader> 
         </f:header>
 
         <f:content>                
-            <tab:Table id="idTable" rows="{ path: '/AllocationMatrizSet', events: {dataReceived: '.onDataReceive'} }" threshold="100000000"  visibleRowCount="10"  enableColumnFreeze="true" alternateRowColors="true" selectionMode="None" >                                    
+            <tab:Table id="idTable" rows="{ path: '/AllocationMatrizSet', events: {dataReceived: '.onDataReceive'} }" threshold="100000000"  visibleRowCount="6"  enableColumnFreeze="true" alternateRowColors="true" selectionMode="None" >                                    
                 <tab:columns>
                     <tab:Column id="idColumn" width="11rem" filterProperty="ConsultantName" >
-                        <Title text="{i18n>consultant}" textAlign="Center" width="100%" />
+                        <Title id="idConsultantTitle" text="{i18n>consultant}" textAlign="Center" width="100%" />
                         <tab:template>
-                            <Text text="{ConsultantName}"/>
+                            <Text id="idConsultantNameText" text="{ConsultantName}"/>
                         </tab:template>
                     </tab:Column>
                     <!-- Janeiro -->
                     <tab:Column id="id1Column" width="230px"  >
-                        <Title id="id1Title" text="{i18n>january} - 144H" textAlign="Center" width="100%" />
+                        <Title id="id1Title" textAlign="Center" width="100%" />
                         <tab:template>                            
                             <VBox class="sapUiSmallMarginTopBottom">
                                 <HBox>
@@ -120,7 +118,7 @@
 
                     <!-- Fevereiro -->
                     <tab:Column id="id2Column" width="230px"> 
-                        <Title text="{i18n>february} - 144H" textAlign="Center" width="100%" />
+                        <Title id="id2Title"  textAlign="Center" width="100%" />
                         <tab:template>                            
                             <VBox class="sapUiSmallMarginTopBottom">
                                 <HBox>
@@ -165,7 +163,7 @@
 
                     <!-- Março -->
                     <tab:Column id="id3Column" width="230px"> 
-                        <Title text="{i18n>march} - 144H" textAlign="Center" width="100%" />
+                        <Title id="id3Title"  textAlign="Center" width="100%" />
                         <tab:template>                            
                             <VBox class="sapUiSmallMarginTopBottom">
                                 <HBox>
@@ -210,7 +208,7 @@
 
                     <!-- Abril -->
                     <tab:Column id="id4Column" width="230px"> 
-                        <Title text="{i18n>april} - 144H" textAlign="Center" width="100%" />
+                        <Title id="id4Title"  textAlign="Center" width="100%" />
                         <tab:template>                            
                             <VBox class="sapUiSmallMarginTopBottom">
                                 <HBox>
@@ -255,7 +253,7 @@
 
                     <!-- Maio -->
                     <tab:Column id="id5Column" width="230px">  
-                        <Title text="{i18n>may} - 144H" textAlign="Center" width="100%" />
+                        <Title id="id5Title"  textAlign="Center" width="100%" />
                         <tab:template>                            
                             <VBox class="sapUiSmallMarginTopBottom">
                                 <HBox>
@@ -300,7 +298,7 @@
 
                     <!-- Junho -->
                     <tab:Column id="id6Column" width="230px">  
-                        <Title text="{i18n>june} - 144H" textAlign="Center" width="100%" />
+                        <Title id="id6Title"  textAlign="Center" width="100%" />
                         <tab:template>                            
                             <VBox class="sapUiSmallMarginTopBottom">
                                 <HBox>
@@ -345,7 +343,7 @@
 
                     <!-- Julho -->
                     <tab:Column id="id7Column" width="230px">  
-                        <Title text="{i18n>july} - 176H" textAlign="Center" width="100%" />
+                        <Title id="id7Title"  textAlign="Center" width="100%" />
                         <tab:template>                            
                             <VBox class="sapUiSmallMarginTopBottom">
                                 <HBox>
@@ -390,7 +388,7 @@
 
                     <!-- Agosto -->
                     <tab:Column id="id8Column" width="230px">  
-                        <Title text="{i18n>august} - 144H" textAlign="Center" width="100%" />
+                        <Title id="id8Title"  textAlign="Center" width="100%" />
                         <tab:template>                            
                             <VBox class="sapUiSmallMarginTopBottom">
                                 <HBox>
@@ -435,7 +433,7 @@
 
                     <!-- Setembro -->
                     <tab:Column id="id9Column" width="230px">  
-                        <Title text="{i18n>september} - 144H" textAlign="Center" width="100%" />
+                        <Title id="id9Title"  textAlign="Center" width="100%" />
                         <tab:template>                            
                             <VBox class="sapUiSmallMarginTopBottom">
                                 <HBox>
@@ -480,7 +478,7 @@
 
                      <!-- Outubro -->
                     <tab:Column id="id10Column" width="230px"> 
-                        <Title text="{i18n>october} - 144H" textAlign="Center" width="100%" />
+                        <Title id="id10Title"  textAlign="Center" width="100%" />
                         <tab:template>                            
                             <VBox class="sapUiSmallMarginTopBottom">
                                 <HBox>
@@ -525,7 +523,7 @@
 
                      <!--Novembro -->
                      <tab:Column id="id11Column" width="230px">  
-                        <Title text="{i18n>november} - 144H" textAlign="Center" width="100%" />
+                        <Title id="id11Title"  textAlign="Center" width="100%" />
                         <tab:template>                            
                             <VBox class="sapUiSmallMarginTopBottom">
                                 <HBox>
@@ -570,7 +568,7 @@
 
                      <!--Dezembro -->
                      <tab:Column id="id12Column" width="230px">  
-                        <Title text="{i18n>december} - 144H" textAlign="Center" width="100%" />
+                        <Title id="id12Title"  textAlign="Center" width="100%" />
                         <tab:template>                            
                             <VBox class="sapUiSmallMarginTopBottom">
                                 <HBox>

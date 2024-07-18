@@ -9,8 +9,8 @@ sap.ui.define([
 
         return Controller.extend("inetum.ssm.alocationssc.controller.Matriz", {
             onInit: function () {
-            //   let oList = this.byId("idTable");
-            //   oList.setFixedColumnCount(1);
+                let oList = this.byId("idTable");
+                oList.setFixedColumnCount(1);
 
                  // Obtém o ano atual
                 let currentYear = new Date().getFullYear();
@@ -24,10 +24,16 @@ sap.ui.define([
             },
              
             onFilterBarSearch: function (event) {
+                // Pesquisa por ano
+                let oYearComboBox = this.byId("idYearListSetComboBox");
+                let sSelectedYear = oYearComboBox.getSelectedKey();
+
                 // Pesquisa por consultores
-                let oConsultantComboBox     = this.byId("idConsultantListSetMultiComboBox");
+                let oConsultantComboBox = this.byId("idConsultantListSetMultiComboBox");
                 let aConsultantSelectedKeys = oConsultantComboBox.getSelectedKeys();
-                this.fetchDataFromBackend(aConsultantSelectedKeys);
+
+                // Chama o método fetchDataFromBackend com ambos os valores
+                this.fetchDataFromBackend(sSelectedYear, aConsultantSelectedKeys);
                
                 // Obter os meses selecionados
                 let oMultiComboBox = this.byId("idMonthtListSetMultiComboBox");
@@ -70,23 +76,65 @@ sap.ui.define([
                 }
             },
 
-            fetchDataFromBackend: function(consultantValues) {
+            fetchDataFromBackend: function(selectedYear, consultantValues) {
                 let oTable = this.byId("idTable");
                 let oBinding = oTable.getBinding("rows");
             
-                // Construa o filtro composto para enviar ao backend
-                let aFilters = consultantValues.map(value => {
-                    return new sap.ui.model.Filter("Consultant", sap.ui.model.FilterOperator.EQ, value);
-                });
+                let aFilters = [];
             
-                // Cria um filtro composto usando o operador lógico "OU" (OR)
+                // Adiciona filtro de ano se selecionado
+                if (selectedYear) {
+                    aFilters.push(new sap.ui.model.Filter("Year", sap.ui.model.FilterOperator.EQ, selectedYear));
+                }
+            
+                // Adiciona filtros de consultores se algum consultor for selecionado
+                if (consultantValues && consultantValues.length > 0) {
+                    let aConsultantFilters = consultantValues.map(value => {
+                        return new sap.ui.model.Filter("Consultant", sap.ui.model.FilterOperator.EQ, value);
+                    });
+            
+                    // Adiciona filtros de consultores ao array de filtros
+                    aFilters.push(new sap.ui.model.Filter({
+                        filters: aConsultantFilters,
+                        and: false // 'false' significa 'OR'
+                    }));
+                }
+            
+                // Cria um filtro composto usando o operador lógico 'AND' para combinar os filtros de ano e consultores
                 let oCombinedFilter = new sap.ui.model.Filter({
                     filters: aFilters,
-                    and: false // 'false' significa 'OR'
+                    and: true // 'true' significa 'AND'
                 });
             
-                // Aplique o filtro composto ao binding da tabela
+                // Aplica o filtro composto ao binding da tabela
                 oBinding.filter(oCombinedFilter);
+            },
+
+            onDataReceive: function (oEvent) {
+                var oTable = this.byId("idTable");
+                var oBinding = oTable.getBinding("rows");
+    
+                if (oBinding) {
+                    var aContexts = oBinding.getContexts(0, 1); // Obtém o contexto da primeira linha
+    
+                    if (aContexts.length > 0) {
+                        var oFirstRow = aContexts[0].getObject();
+    
+                        // Atualiza o texto dos títulos das colunas com base na primeira linha de dados
+                        this.byId("id1Title").setText(this.getView().getModel("i18n").getResourceBundle().getText("january") + " - " + oFirstRow.DaysM1  + "H");
+                        this.byId("id2Title").setText(this.getView().getModel("i18n").getResourceBundle().getText("february") + " - " + oFirstRow.DaysM2 + "H");
+                        this.byId("id3Title").setText(this.getView().getModel("i18n").getResourceBundle().getText("march") + " - " + oFirstRow.DaysM3 + "H");
+                        this.byId("id4Title").setText(this.getView().getModel("i18n").getResourceBundle().getText("april") + " - " + oFirstRow.DaysM4 + "H");
+                        this.byId("id5Title").setText(this.getView().getModel("i18n").getResourceBundle().getText("may") + " - " + oFirstRow.DaysM5 + "H");
+                        this.byId("id6Title").setText(this.getView().getModel("i18n").getResourceBundle().getText("june") + " - " + oFirstRow.DaysM6 + "H");
+                        this.byId("id7Title").setText(this.getView().getModel("i18n").getResourceBundle().getText("july") + " - " + oFirstRow.DaysM7 + "H");
+                        this.byId("id8Title").setText(this.getView().getModel("i18n").getResourceBundle().getText("august") + " - " + oFirstRow.DaysM8 + "H");
+                        this.byId("id9Title").setText(this.getView().getModel("i18n").getResourceBundle().getText("september") + " - " + oFirstRow.DaysM9 + "H");
+                        this.byId("id10Title").setText(this.getView().getModel("i18n").getResourceBundle().getText("october") + " - " + oFirstRow.DaysM10 + "H");
+                        this.byId("id11Title").setText(this.getView().getModel("i18n").getResourceBundle().getText("november") + " - " + oFirstRow.DaysM11 + "H");
+                        this.byId("id12Title").setText(this.getView().getModel("i18n").getResourceBundle().getText("december") + " - " + oFirstRow.DaysM12 + "H");
+                    }
+                }
             },
  
         });
